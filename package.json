@@ -6,8 +6,7 @@
     "start": "node ./dist/server.mjs",
     "dev": "tsx ./src/server.ts",
     "build": "orval",
-    "tsdown:build": "tsdown",
-    "tsdown:dev": "tsdown --watch"
+    "tsdown:build": "tsdown"
   },
   "keywords": [],
   "author": "",
