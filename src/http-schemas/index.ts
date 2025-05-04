@@ -16,7 +16,6 @@ Some useful links:
 export * from './apiResponse';
 export * from './category';
 export * from './findPetsByStatusParams';
-export * from './findPetsByStatusStatus';
 export * from './findPetsByTagsParams';
 export * from './getInventory200';
 export * from './loginUserParams';
@@ -27,6 +26,5 @@ export * from './petBody';
 export * from './petStatus';
 export * from './tag';
 export * from './updatePetWithFormParams';
-export * from './uploadFileParams';
 export * from './user';
 export * from './userArrayBody';
