@@ -1,0 +1,1 @@
+# OrvalでOpenAPIからMCPサーバを作る例
