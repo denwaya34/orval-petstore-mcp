@@ -22,47 +22,30 @@ import {
 } from '@modelcontextprotocol/sdk/server/stdio.js';  
 
 import {
-  updatePetHandler,
-  addPetHandler,
   findPetsByStatusHandler,
   findPetsByTagsHandler,
   getPetByIdHandler,
   updatePetWithFormHandler,
   deletePetHandler,
-  uploadFileHandler,
   getInventoryHandler,
-  placeOrderHandler,
   getOrderByIdHandler,
   deleteOrderHandler,
-  createUserHandler,
-  createUsersWithListInputHandler,
   loginUserHandler,
   logoutUserHandler,
   getUserByNameHandler,
-  updateUserHandler,
   deleteUserHandler
 } from './handlers';
 import {
-  updatePetBody,
-  addPetBody,
   findPetsByStatusQueryParams,
   findPetsByTagsQueryParams,
   getPetByIdParams,
   updatePetWithFormParams,
   updatePetWithFormQueryParams,
   deletePetParams,
-  uploadFileParams,
-  uploadFileQueryParams,
-  uploadFileBody,
-  placeOrderBody,
   getOrderByIdParams,
   deleteOrderParams,
-  createUserBody,
-  createUsersWithListInputBody,
   loginUserQueryParams,
   getUserByNameParams,
-  updateUserParams,
-  updateUserBody,
   deleteUserParams
 } from './tool-schemas.zod';
 
@@ -71,24 +54,6 @@ const server = new McpServer({
   version: '1.0.0',
 });
 
-
-server.tool(
-  'updatePet',
-  'Update an existing pet.',
-  {
-    bodyParams: updatePetBody
-  },
-  updatePetHandler
-);
-
-server.tool(
-  'addPet',
-  'Add a new pet to the store.',
-  {
-    bodyParams: addPetBody
-  },
-  addPetHandler
-);
 
 server.tool(
   'findPetsByStatus',
@@ -137,29 +102,9 @@ server.tool(
 );
 
 server.tool(
-  'uploadFile',
-  'Uploads an image.',
-  {
-    pathParams: uploadFileParams,
-    queryParams: uploadFileQueryParams,
-    bodyParams: uploadFileBody
-  },
-  uploadFileHandler
-);
-
-server.tool(
   'getInventory',
   'Returns pet inventories by status.',
   getInventoryHandler
-);
-
-server.tool(
-  'placeOrder',
-  'Place an order for a pet.',
-  {
-    bodyParams: placeOrderBody
-  },
-  placeOrderHandler
 );
 
 server.tool(
@@ -178,24 +123,6 @@ server.tool(
     pathParams: deleteOrderParams
   },
   deleteOrderHandler
-);
-
-server.tool(
-  'createUser',
-  'Create user.',
-  {
-    bodyParams: createUserBody
-  },
-  createUserHandler
-);
-
-server.tool(
-  'createUsersWithListInput',
-  'Creates list of users with given input array.',
-  {
-    bodyParams: createUsersWithListInputBody
-  },
-  createUsersWithListInputHandler
 );
 
 server.tool(
@@ -220,16 +147,6 @@ server.tool(
     pathParams: getUserByNameParams
   },
   getUserByNameHandler
-);
-
-server.tool(
-  'updateUser',
-  'Update user resource.',
-  {
-    pathParams: updateUserParams,
-    bodyParams: updateUserBody
-  },
-  updateUserHandler
 );
 
 server.tool(

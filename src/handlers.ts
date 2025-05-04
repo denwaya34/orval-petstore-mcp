@@ -13,86 +13,27 @@ Some useful links:
  * OpenAPI spec version: 1.0.27-SNAPSHOT
  */
 import {
-  UpdatePetBody,
-  AddPetBody,
   FindPetsByStatusParams,
   FindPetsByTagsParams,
   UpdatePetWithFormParams,
-  UploadFileParams,
-  UploadFileBody,
-  PlaceOrderBody,
-  CreateUserBody,
-  CreateUsersWithListInputBody,
-  LoginUserParams,
-  UpdateUserBody
+  LoginUserParams
 } from './http-schemas';
 
 import {
-  updatePet,
-  addPet,
   findPetsByStatus,
   findPetsByTags,
   getPetById,
   updatePetWithForm,
   deletePet,
-  uploadFile,
   getInventory,
-  placeOrder,
   getOrderById,
   deleteOrder,
-  createUser,
-  createUsersWithListInput,
   loginUser,
   logoutUser,
   getUserByName,
-  updateUser,
   deleteUser
 } from './http-client';
   
-/**
- * Update an existing pet by Id.
- * @summary Update an existing pet.
- */
-
-export type updatePetArgs = {
-  bodyParams: Pet;
-}
-
-export const updatePetHandler = async (args: updatePetArgs) => {
-  const res = await updatePet(args.bodyParams);
-
-  return {
-    content: [
-      {
-        type: 'text' as const,
-        text: JSON.stringify(res),
-      },
-    ],
-  };
-};
-
-/**
- * Add a new pet to the store.
- * @summary Add a new pet to the store.
- */
-
-export type addPetArgs = {
-  bodyParams: Pet;
-}
-
-export const addPetHandler = async (args: addPetArgs) => {
-  const res = await addPet(args.bodyParams);
-
-  return {
-    content: [
-      {
-        type: 'text' as const,
-        text: JSON.stringify(res),
-      },
-    ],
-  };
-};
-
 /**
  * Multiple status values can be provided with comma separated strings.
  * @summary Finds Pets by status.
@@ -211,60 +152,12 @@ export const deletePetHandler = async (args: deletePetArgs) => {
 };
 
 /**
- * Upload image of the pet.
- * @summary Uploads an image.
- */
-
-export type uploadFileArgs = {
-  pathParams: {
-    petId: number
-  };
-  queryParams: UploadFileParams;
-  bodyParams: Blob;
-}
-
-export const uploadFileHandler = async (args: uploadFileArgs) => {
-  const res = await uploadFile(args.pathParams.petId, args.bodyParams, args.queryParams);
-
-  return {
-    content: [
-      {
-        type: 'text' as const,
-        text: JSON.stringify(res),
-      },
-    ],
-  };
-};
-
-/**
  * Returns a map of status codes to quantities.
  * @summary Returns pet inventories by status.
  */
 
 export const getInventoryHandler = async () => {
   const res = await getInventory();
-
-  return {
-    content: [
-      {
-        type: 'text' as const,
-        text: JSON.stringify(res),
-      },
-    ],
-  };
-};
-
-/**
- * Place a new order in the store.
- * @summary Place an order for a pet.
- */
-
-export type placeOrderArgs = {
-  bodyParams: Order;
-}
-
-export const placeOrderHandler = async (args: placeOrderArgs) => {
-  const res = await placeOrder(args.bodyParams);
 
   return {
     content: [
@@ -313,50 +206,6 @@ export type deleteOrderArgs = {
 
 export const deleteOrderHandler = async (args: deleteOrderArgs) => {
   const res = await deleteOrder(args.pathParams.orderId);
-
-  return {
-    content: [
-      {
-        type: 'text' as const,
-        text: JSON.stringify(res),
-      },
-    ],
-  };
-};
-
-/**
- * This can only be done by the logged in user.
- * @summary Create user.
- */
-
-export type createUserArgs = {
-  bodyParams: User;
-}
-
-export const createUserHandler = async (args: createUserArgs) => {
-  const res = await createUser(args.bodyParams);
-
-  return {
-    content: [
-      {
-        type: 'text' as const,
-        text: JSON.stringify(res),
-      },
-    ],
-  };
-};
-
-/**
- * Creates list of users with given input array.
- * @summary Creates list of users with given input array.
- */
-
-export type createUsersWithListInputArgs = {
-  bodyParams: User[];
-}
-
-export const createUsersWithListInputHandler = async (args: createUsersWithListInputArgs) => {
-  const res = await createUsersWithListInput(args.bodyParams);
 
   return {
     content: [
@@ -421,31 +270,6 @@ export type getUserByNameArgs = {
 
 export const getUserByNameHandler = async (args: getUserByNameArgs) => {
   const res = await getUserByName(args.pathParams.username);
-
-  return {
-    content: [
-      {
-        type: 'text' as const,
-        text: JSON.stringify(res),
-      },
-    ],
-  };
-};
-
-/**
- * This can only be done by the logged in user.
- * @summary Update user resource.
- */
-
-export type updateUserArgs = {
-  pathParams: {
-    username: string
-  };
-  bodyParams: User;
-}
-
-export const updateUserHandler = async (args: updateUserArgs) => {
-  const res = await updateUser(args.pathParams.username, args.bodyParams);
 
   return {
     content: [

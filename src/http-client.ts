@@ -17,12 +17,10 @@ import { Pet,
 FindPetsByStatusParams,
 FindPetsByTagsParams,
 UpdatePetWithFormParams,
-ApiResponse,
-UploadFileParams,
 GetInventory200,
 Order,
-User,
-LoginUserParams } from './http-schemas';
+LoginUserParams,
+User } from './http-schemas';
 
 export type HTTPStatusCode1xx = 100 | 101 | 102 | 103;
 export type HTTPStatusCode2xx = 200 | 201 | 202 | 203 | 204 | 205 | 206 | 207;
@@ -30,94 +28,6 @@ export type HTTPStatusCode3xx = 300 | 301 | 302 | 303 | 304 | 305 | 307 | 308;
 export type HTTPStatusCode4xx = 400 | 401 | 402 | 403 | 404 | 405 | 406 | 407 | 408 | 409 | 410 | 411 | 412 | 413 | 414 | 415 | 416 | 417 | 418 | 419 | 420 | 421 | 422 | 423 | 424 | 426 | 428 | 429 | 431 | 451;
 export type HTTPStatusCode5xx = 500 | 501 | 502 | 503 | 504 | 505 | 507 | 511;
 export type HTTPStatusCodes = HTTPStatusCode1xx | HTTPStatusCode2xx | HTTPStatusCode3xx | HTTPStatusCode4xx | HTTPStatusCode5xx;
-
-
-export type updatePetResponse200 = {
-  data: Pet
-  status: 200
-}
-
-export type updatePetResponse400 = {
-  data: void
-  status: 400
-}
-    
-export type updatePetResponseComposite = updatePetResponse200 | updatePetResponse400;
-    
-export type updatePetResponse = updatePetResponseComposite & {
-  headers: Headers;
-}
-
-export const getUpdatePetUrl = () => {
-
-
-  
-
-  return `https://petstore3.swagger.io/api/v3/pet`
-}
-
-export const updatePet = async (pet: Pet, options?: RequestInit): Promise<updatePetResponse> => {
-  
-  const res = await fetch(getUpdatePetUrl(),
-  {      
-    ...options,
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      pet,)
-  }
-)
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
-  const data: updatePetResponse['data'] = body ? JSON.parse(body) : {}
-
-  return { data, status: res.status, headers: res.headers } as updatePetResponse
-}
-
-
-
-export type addPetResponse200 = {
-  data: Pet
-  status: 200
-}
-
-export type addPetResponse400 = {
-  data: void
-  status: 400
-}
-    
-export type addPetResponseComposite = addPetResponse200 | addPetResponse400;
-    
-export type addPetResponse = addPetResponseComposite & {
-  headers: Headers;
-}
-
-export const getAddPetUrl = () => {
-
-
-  
-
-  return `https://petstore3.swagger.io/api/v3/pet`
-}
-
-export const addPet = async (pet: Pet, options?: RequestInit): Promise<addPetResponse> => {
-  
-  const res = await fetch(getAddPetUrl(),
-  {      
-    ...options,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      pet,)
-  }
-)
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
-  const data: addPetResponse['data'] = body ? JSON.parse(body) : {}
-
-  return { data, status: res.status, headers: res.headers } as addPetResponse
-}
-
 
 
 export type findPetsByStatusResponse200 = {
@@ -140,14 +50,10 @@ export const getFindPetsByStatusUrl = (params?: FindPetsByStatusParams,) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
-    const explodeParameters = ["status"];
-
-    if (value instanceof Array && explodeParameters.includes(key)) {
-      value.forEach((v) => normalizedParams.append(key, v === null ? 'null' : v.toString()));
-      return;
-    }
-      
     
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : value.toString())
+    }
   });
 
   const stringifiedParams = normalizedParams.toString();
@@ -366,60 +272,6 @@ export const deletePet = async (petId: number, options?: RequestInit): Promise<d
 
 
 
-export type uploadFileResponse200 = {
-  data: ApiResponse
-  status: 200
-}
-
-export type uploadFileResponse400 = {
-  data: void
-  status: 400
-}
-    
-export type uploadFileResponseComposite = uploadFileResponse200 | uploadFileResponse400;
-    
-export type uploadFileResponse = uploadFileResponseComposite & {
-  headers: Headers;
-}
-
-export const getUploadFileUrl = (petId: number,
-    params?: UploadFileParams,) => {
-  const normalizedParams = new URLSearchParams();
-
-  Object.entries(params || {}).forEach(([key, value]) => {
-    
-    if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString())
-    }
-  });
-
-  const stringifiedParams = normalizedParams.toString();
-
-  return stringifiedParams.length > 0 ? `https://petstore3.swagger.io/api/v3/pet/${petId}/uploadImage?${stringifiedParams}` : `https://petstore3.swagger.io/api/v3/pet/${petId}/uploadImage`
-}
-
-export const uploadFile = async (petId: number,
-    uploadFileBody: Blob,
-    params?: UploadFileParams, options?: RequestInit): Promise<uploadFileResponse> => {
-  
-  const res = await fetch(getUploadFileUrl(petId,params),
-  {      
-    ...options,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/octet-stream', ...options?.headers },
-    body: JSON.stringify(
-      uploadFileBody,)
-  }
-)
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
-  const data: uploadFileResponse['data'] = body ? JSON.parse(body) : {}
-
-  return { data, status: res.status, headers: res.headers } as uploadFileResponse
-}
-
-
-
 export type getInventoryResponse200 = {
   data: GetInventory200
   status: 200
@@ -459,50 +311,6 @@ export const getInventory = async ( options?: RequestInit): Promise<getInventory
   const data: getInventoryResponse['data'] = body ? JSON.parse(body) : {}
 
   return { data, status: res.status, headers: res.headers } as getInventoryResponse
-}
-
-
-
-export type placeOrderResponse200 = {
-  data: Order
-  status: 200
-}
-
-export type placeOrderResponse400 = {
-  data: void
-  status: 400
-}
-    
-export type placeOrderResponseComposite = placeOrderResponse200 | placeOrderResponse400;
-    
-export type placeOrderResponse = placeOrderResponseComposite & {
-  headers: Headers;
-}
-
-export const getPlaceOrderUrl = () => {
-
-
-  
-
-  return `https://petstore3.swagger.io/api/v3/store/order`
-}
-
-export const placeOrder = async (order: Order, options?: RequestInit): Promise<placeOrderResponse> => {
-  
-  const res = await fetch(getPlaceOrderUrl(),
-  {      
-    ...options,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      order,)
-  }
-)
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
-  const data: placeOrderResponse['data'] = body ? JSON.parse(body) : {}
-
-  return { data, status: res.status, headers: res.headers } as placeOrderResponse
 }
 
 
@@ -589,94 +397,6 @@ export const deleteOrder = async (orderId: number, options?: RequestInit): Promi
   const data: deleteOrderResponse['data'] = body ? JSON.parse(body) : {}
 
   return { data, status: res.status, headers: res.headers } as deleteOrderResponse
-}
-
-
-
-export type createUserResponse200 = {
-  data: User
-  status: 200
-}
-
-export type createUserResponseDefault = {
-  data: void
-  status: Exclude<HTTPStatusCodes, 200>
-}
-    
-export type createUserResponseComposite = createUserResponse200 | createUserResponseDefault;
-    
-export type createUserResponse = createUserResponseComposite & {
-  headers: Headers;
-}
-
-export const getCreateUserUrl = () => {
-
-
-  
-
-  return `https://petstore3.swagger.io/api/v3/user`
-}
-
-export const createUser = async (user: User, options?: RequestInit): Promise<createUserResponse> => {
-  
-  const res = await fetch(getCreateUserUrl(),
-  {      
-    ...options,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      user,)
-  }
-)
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
-  const data: createUserResponse['data'] = body ? JSON.parse(body) : {}
-
-  return { data, status: res.status, headers: res.headers } as createUserResponse
-}
-
-
-
-export type createUsersWithListInputResponse200 = {
-  data: User
-  status: 200
-}
-
-export type createUsersWithListInputResponseDefault = {
-  data: void
-  status: Exclude<HTTPStatusCodes, 200>
-}
-    
-export type createUsersWithListInputResponseComposite = createUsersWithListInputResponse200 | createUsersWithListInputResponseDefault;
-    
-export type createUsersWithListInputResponse = createUsersWithListInputResponseComposite & {
-  headers: Headers;
-}
-
-export const getCreateUsersWithListInputUrl = () => {
-
-
-  
-
-  return `https://petstore3.swagger.io/api/v3/user/createWithList`
-}
-
-export const createUsersWithListInput = async (user: User[], options?: RequestInit): Promise<createUsersWithListInputResponse> => {
-  
-  const res = await fetch(getCreateUsersWithListInputUrl(),
-  {      
-    ...options,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      user,)
-  }
-)
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
-  const data: createUsersWithListInputResponse['data'] = body ? JSON.parse(body) : {}
-
-  return { data, status: res.status, headers: res.headers } as createUsersWithListInputResponse
 }
 
 
@@ -813,51 +533,6 @@ export const getUserByName = async (username: string, options?: RequestInit): Pr
   const data: getUserByNameResponse['data'] = body ? JSON.parse(body) : {}
 
   return { data, status: res.status, headers: res.headers } as getUserByNameResponse
-}
-
-
-
-export type updateUserResponse200 = {
-  data: void
-  status: 200
-}
-
-export type updateUserResponse400 = {
-  data: void
-  status: 400
-}
-    
-export type updateUserResponseComposite = updateUserResponse200 | updateUserResponse400;
-    
-export type updateUserResponse = updateUserResponseComposite & {
-  headers: Headers;
-}
-
-export const getUpdateUserUrl = (username: string,) => {
-
-
-  
-
-  return `https://petstore3.swagger.io/api/v3/user/${username}`
-}
-
-export const updateUser = async (username: string,
-    user: User, options?: RequestInit): Promise<updateUserResponse> => {
-  
-  const res = await fetch(getUpdateUserUrl(username),
-  {      
-    ...options,
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      user,)
-  }
-)
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
-  const data: updateUserResponse['data'] = body ? JSON.parse(body) : {}
-
-  return { data, status: res.status, headers: res.headers } as updateUserResponse
 }
 
 

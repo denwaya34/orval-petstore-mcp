@@ -14,72 +14,8 @@ Some useful links:
  */
 import { z as zod } from 'zod';
 
-export const updatePetBody = zod.object({
-  "id": zod.number().optional(),
-  "name": zod.string(),
-  "category": zod.object({
-  "id": zod.number().optional(),
-  "name": zod.string().optional()
-}).optional(),
-  "photoUrls": zod.array(zod.string()),
-  "tags": zod.array(zod.object({
-  "id": zod.number().optional(),
-  "name": zod.string().optional()
-})).optional(),
-  "status": zod.enum(['available', 'pending', 'sold']).optional().describe('pet status in the store')
-})
-
-export const updatePetResponse = zod.object({
-  "id": zod.number().optional(),
-  "name": zod.string(),
-  "category": zod.object({
-  "id": zod.number().optional(),
-  "name": zod.string().optional()
-}).optional(),
-  "photoUrls": zod.array(zod.string()),
-  "tags": zod.array(zod.object({
-  "id": zod.number().optional(),
-  "name": zod.string().optional()
-})).optional(),
-  "status": zod.enum(['available', 'pending', 'sold']).optional().describe('pet status in the store')
-})
-
-
-export const addPetBody = zod.object({
-  "id": zod.number().optional(),
-  "name": zod.string(),
-  "category": zod.object({
-  "id": zod.number().optional(),
-  "name": zod.string().optional()
-}).optional(),
-  "photoUrls": zod.array(zod.string()),
-  "tags": zod.array(zod.object({
-  "id": zod.number().optional(),
-  "name": zod.string().optional()
-})).optional(),
-  "status": zod.enum(['available', 'pending', 'sold']).optional().describe('pet status in the store')
-})
-
-export const addPetResponse = zod.object({
-  "id": zod.number().optional(),
-  "name": zod.string(),
-  "category": zod.object({
-  "id": zod.number().optional(),
-  "name": zod.string().optional()
-}).optional(),
-  "photoUrls": zod.array(zod.string()),
-  "tags": zod.array(zod.object({
-  "id": zod.number().optional(),
-  "name": zod.string().optional()
-})).optional(),
-  "status": zod.enum(['available', 'pending', 'sold']).optional().describe('pet status in the store')
-})
-
-
-export const findPetsByStatusQueryStatusDefault = "available";
-
 export const findPetsByStatusQueryParams = zod.object({
-  "status": zod.enum(['available', 'pending', 'sold']).default(findPetsByStatusQueryStatusDefault).describe('Status values that need to be considered for filter')
+  "status": zod.string().optional().describe('Status values that need to be considered for filter')
 })
 
 export const findPetsByStatusResponseItem = zod.object({
@@ -174,41 +110,7 @@ export const deletePetHeader = zod.object({
 })
 
 
-export const uploadFileParams = zod.object({
-  "petId": zod.number().describe('ID of pet to update')
-})
-
-export const uploadFileQueryParams = zod.object({
-  "additionalMetadata": zod.string().optional().describe('Additional Metadata')
-})
-
-export const uploadFileResponse = zod.object({
-  "code": zod.number().optional(),
-  "type": zod.string().optional(),
-  "message": zod.string().optional()
-})
-
-
 export const getInventoryResponse = zod.record(zod.string(), zod.number())
-
-
-export const placeOrderBody = zod.object({
-  "id": zod.number().optional(),
-  "petId": zod.number().optional(),
-  "quantity": zod.number().optional(),
-  "shipDate": zod.string().datetime({}).optional(),
-  "status": zod.enum(['placed', 'approved', 'delivered']).optional().describe('Order Status'),
-  "complete": zod.boolean().optional()
-})
-
-export const placeOrderResponse = zod.object({
-  "id": zod.number().optional(),
-  "petId": zod.number().optional(),
-  "quantity": zod.number().optional(),
-  "shipDate": zod.string().datetime({}).optional(),
-  "status": zod.enum(['placed', 'approved', 'delivered']).optional().describe('Order Status'),
-  "complete": zod.boolean().optional()
-})
 
 
 export const getOrderByIdParams = zod.object({
@@ -230,53 +132,6 @@ export const deleteOrderParams = zod.object({
 })
 
 
-export const createUserBody = zod.object({
-  "id": zod.number().optional(),
-  "username": zod.string().optional(),
-  "firstName": zod.string().optional(),
-  "lastName": zod.string().optional(),
-  "email": zod.string().optional(),
-  "password": zod.string().optional(),
-  "phone": zod.string().optional(),
-  "userStatus": zod.number().optional().describe('User Status')
-})
-
-export const createUserResponse = zod.object({
-  "id": zod.number().optional(),
-  "username": zod.string().optional(),
-  "firstName": zod.string().optional(),
-  "lastName": zod.string().optional(),
-  "email": zod.string().optional(),
-  "password": zod.string().optional(),
-  "phone": zod.string().optional(),
-  "userStatus": zod.number().optional().describe('User Status')
-})
-
-
-export const createUsersWithListInputBodyItem = zod.object({
-  "id": zod.number().optional(),
-  "username": zod.string().optional(),
-  "firstName": zod.string().optional(),
-  "lastName": zod.string().optional(),
-  "email": zod.string().optional(),
-  "password": zod.string().optional(),
-  "phone": zod.string().optional(),
-  "userStatus": zod.number().optional().describe('User Status')
-})
-export const createUsersWithListInputBody = zod.array(createUsersWithListInputBodyItem)
-
-export const createUsersWithListInputResponse = zod.object({
-  "id": zod.number().optional(),
-  "username": zod.string().optional(),
-  "firstName": zod.string().optional(),
-  "lastName": zod.string().optional(),
-  "email": zod.string().optional(),
-  "password": zod.string().optional(),
-  "phone": zod.string().optional(),
-  "userStatus": zod.number().optional().describe('User Status')
-})
-
-
 export const loginUserQueryParams = zod.object({
   "username": zod.string().optional().describe('The user name for login'),
   "password": zod.string().optional().describe('The password for login in clear text')
@@ -291,22 +146,6 @@ export const getUserByNameParams = zod.object({
 })
 
 export const getUserByNameResponse = zod.object({
-  "id": zod.number().optional(),
-  "username": zod.string().optional(),
-  "firstName": zod.string().optional(),
-  "lastName": zod.string().optional(),
-  "email": zod.string().optional(),
-  "password": zod.string().optional(),
-  "phone": zod.string().optional(),
-  "userStatus": zod.number().optional().describe('User Status')
-})
-
-
-export const updateUserParams = zod.object({
-  "username": zod.string().describe('name that need to be deleted')
-})
-
-export const updateUserBody = zod.object({
   "id": zod.number().optional(),
   "username": zod.string().optional(),
   "firstName": zod.string().optional(),
