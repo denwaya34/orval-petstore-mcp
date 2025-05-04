@@ -11,5 +11,8 @@
   "description": "",
   "devDependencies": {
     "orval": "7.9.0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.11.0"
   }
 }
