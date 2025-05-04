@@ -1,0 +1,11 @@
+{
+    "servers": {
+        "pet-store": {
+            "type": "stdio",
+            "command": "node",
+            "args": [
+                "./dist/server.mjs"
+            ]
+        }
+    }
+}
