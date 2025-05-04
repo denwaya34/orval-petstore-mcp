@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "server-name": {
+      "command": "npx",
+      "args": ["-y", "./dist/server.mjs"],
+      "env": {
+      }
+    }
+  }
+}
