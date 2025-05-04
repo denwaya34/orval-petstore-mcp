@@ -2,7 +2,9 @@
   "mcpServers": {
     "pet-store": {
       "command": "node",
-      "args": ["./dist/server.mjs"],
+      "args": [
+        "${workspaceFolder}/dist/server.mjs"
+      ],
       "env": {
       }
     }
